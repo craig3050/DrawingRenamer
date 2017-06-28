@@ -38,8 +38,6 @@ def RegExTest(input_text, regex_format):
             output_text += "-"
         else:
             output_text += regex_variable
-    output_text += ""
-    print (output_text)
     regex_results = re.findall(output_text, input_text)
     print(regex_results)
     number_of_regex_groups = len(regex_results) -1

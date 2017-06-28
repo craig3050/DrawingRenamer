@@ -5,7 +5,6 @@ def RenameFile(file_path, new_drawing_number):
     file_extension = source.split(".")[-1]
     print (source)
     print (file_extension)
-
     destination = file_path.replace(source, new_drawing_number + "." + file_extension)
     print (destination)
     os.rename(file_path, destination)
