@@ -15,6 +15,9 @@ provided by other disciplines, and may be subject to further design development 
 Note: The works illustrated in the ar
 ea outlined in blue are subject to amendments
 through a parallel GRIP4
+EGIP19-ARP-DRG-EDR-52-092
+
+EGIP19-ARP-DRG-ED4-52-051
 & 5 design process. They are indicative and provided for context only
 GRIP 5
  1 : 100B0229/04/1629/04/16
@@ -27,8 +30,7 @@ B0229/04/16GRIP 4 REVISED DRAWINGMGST
 
 """
 
-def RegExTest(input_text):
-    regex_format = input("Enter Sample Drawing Number: ")
+def RegExTest(input_text, regex_format):
     output_text = ""
     regex_variable = "."
     for char in regex_format:
@@ -38,10 +40,13 @@ def RegExTest(input_text):
             output_text += regex_variable
     output_text += ""
     print (output_text)
-    return re.search(output_text, input_text)
-
+    regex_results = re.findall(output_text, input_text)
+    print(regex_results)
+    number_of_regex_groups = len(regex_results) -1
+    return regex_results[number_of_regex_groups]
 
 
 if __name__ == '__main__':
-    text_return = RegExTest(text_sample)
-    print (text_return.group(0))
+    regex_format = input("Enter a sample drawing number: ")
+    text_return = RegExTest(text_sample, regex_format)
+    print (text_return)

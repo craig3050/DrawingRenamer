@@ -1,7 +1,6 @@
 import PyPDF2
 import argparse
 import re
-import shutil
 import os
 
 #need pip install pypdf2
@@ -16,6 +15,28 @@ def extract_pdf_text(file_path):
     return page_object
 
 
+def RenameFile(file_path, new_drawing_number):
+    sanitised_file_path = ""
+    for char in file_path:
+        if char == "\"":
+            sanitised_file_path += ""
+        elif char == "\\":
+            sanitised_file_path += "/"
+        else:
+            sanitised_file_path += char
+
+    print (sanitised_file_path)
+
+    source = sanitised_file_path.split("/")[-1]
+    file_extension = source.split(".")[-1]
+    print (source)
+    print (file_extension)
+
+    destination = sanitised_file_path.replace(source, new_drawing_number + "." + file_extension)
+    print (destination)
+    os.rename(sanitised_file_path, destination)
+
+
 def RegExTest(input_text, regex_format):
     output_text = ""
     regex_variable = "."
@@ -26,39 +47,37 @@ def RegExTest(input_text, regex_format):
             output_text += regex_variable
     output_text += ""
     print (output_text)
-    return re.search(output_text, input_text)
+    regex_results = re.findall(output_text, input_text)
+    print(regex_results)
+    number_of_regex_groups = len(regex_results) -1
+    return regex_results[number_of_regex_groups]
 
-def RenameFile(file_path, drawing_number):
+def sanitisedFilePath(file_path):
+    sanitised_file_path = ""
 
-    for file_name in file_path:
-        source = file_path.split("/")[-1]
-        length = len(file_name)
-        #source = file_path + "\\" + file_name
-        source = os.path.join(file_path, file_name)
-        extension_length = 0
-        for x in file_name:
-            if x == ".":
-                break
-            else:
-                extension_length += 1
-        extension_length =  length - extension_length
-        file_name_no_ext = file_name[0:length - extension_length] #removes the extension
-        destination = os.path.join(file_path, file_name_no_ext + " " + text_input + file_name[-extension_length:]) #-4 is the extension
+    for char in file_path:
+        if char == "\"":
+            sanitised_file_path += ""
+        elif char == "\\":
+            sanitised_file_path += "/"
+        else:
+            sanitised_file_path += char
 
-    destination = file_path + "/processed"
-    shutil.copy(file_path, destination)
+    return sanitised_file_path
+
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(
-        description=__doc__,
-        formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument(
-        'path', help='Add file path')
-    args = parser.parse_args()
-    drawing_no = input("Enter Sample Drawing Number: ")
-    pdf_text = extract_pdf_text(args.path)
-    print (pdf_text)
-    pdf_text_match = RegExTest(pdf_text, drawing_no)
-    drawing_name = pdf_text_match.group(0)
-    RenameFile(args.path, drawing_name)
+    print("Welcome to Craig's simple file renaming tool!\n\n")
+    file_path = input("Enter the Path of the folder to be processed: ")
+    print("Printing directory contents: \n")
+    regex_template = input("Enter a sample drawing number: ")
+    for file_name in os.listdir(file_path):
+        print(file_name)
+        print("\n\n\n")
+        sanitised_file_path = sanitisedFilePath(file_path)
+        sanitised_file_path += "/" + file_name
+        pdf_text = extract_pdf_text(sanitised_file_path)
+        print (pdf_text)
+        pdf_text_match = RegExTest(pdf_text, regex_template)
+        RenameFile(sanitised_file_path, pdf_text_match)
 
