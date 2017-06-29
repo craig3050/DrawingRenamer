@@ -51,39 +51,34 @@ def select_option_1(file_path):
     text_remove = input("Enter the text you would like to remove / replace: ")
     text_replace = input("Enter the text you would like to add. Enter nothing for delete only: ")
     for file_name in os.listdir(file_path):
-        print("\n\n\n")
         source = sanitisedFilePath(file_path)
         source += ("/" + file_name)
-        print (source)
         if text_remove in file_name:
             destination = file_name.replace(text_remove, text_replace)
-            print(destination)
             destination = destination.split(".")[0]
-            print(destination)
             RenameFile(source, destination)
-
-
-
-
-
 
 
 def select_option_2(file_path):
     #add text to the beginning of the filename
+    text_add = input("Enter the text you would like to add to the beginning of the file name: ")
     for file_name in os.listdir(file_path):
-        print(file_name)
-        print("\n")
-        sanitised_file_path = sanitisedFilePath(file_path)
-        sanitised_file_path += "/" + file_name
+        source = sanitisedFilePath(file_path)
+        source += ("/" + file_name)
+        destination = text_add + file_name
+        destination = destination.split(".")[0]
+        RenameFile(source, destination)
 
 
 def select_option_3(file_path):
     #add text to the end of the filename
+    text_add = input("Enter the text you would like to add to the end of the file name: ")
     for file_name in os.listdir(file_path):
-        print(file_name)
-        print("\n\n\n")
-        sanitised_file_path = sanitisedFilePath(file_path)
-        sanitised_file_path += "/" + file_name
+        source = sanitisedFilePath(file_path)
+        source += ("/" + file_name)
+        destination = file_name.split(".")[0]
+        destination = destination + text_add
+        RenameFile(source, destination)
 
 
 def select_option_4(file_path):
