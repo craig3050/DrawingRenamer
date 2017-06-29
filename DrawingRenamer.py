@@ -29,7 +29,6 @@ def RegExTest(input_text, regex_format):
         else:
             output_text += regex_variable
     regex_results = re.findall(output_text, input_text)
-    print(regex_results)
     number_of_regex_groups = len(regex_results) -1
     return regex_results[number_of_regex_groups]
 
@@ -86,11 +85,9 @@ def select_option_4(file_path):
     regex_template = input("Enter a sample drawing number: ")
     for file_name in os.listdir(file_path):
         print(file_name)
-        print("\n\n\n")
         sanitised_file_path = sanitisedFilePath(file_path)
         sanitised_file_path += "/" + file_name
         pdf_text = extract_pdf_text(sanitised_file_path)
-        print (pdf_text)
         pdf_text_match = RegExTest(pdf_text, regex_template)
         RenameFile(sanitised_file_path, pdf_text_match)
 
@@ -104,7 +101,6 @@ if __name__ == '__main__':
     for file_name in os.listdir(file_path):
         print(file_name)
         print("\n")
-
     print (""" \n\n
     What would you like to do: \n
     1. Text Remove / Replace Function
