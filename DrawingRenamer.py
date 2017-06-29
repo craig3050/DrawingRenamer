@@ -10,6 +10,7 @@ def extract_pdf_text(file_path):
         file_object = PyPDF2.PdfFileReader(file_open)
         page_object = file_object.getPage(0)
         page_object = page_object.extractText()
+        #print (page_object) #comment this out for general use - useful when testing if the drawing text has been recognised
     return page_object
 
 
@@ -26,6 +27,12 @@ def RegExTest(input_text, regex_format):
     for char in regex_format:
         if char == "-":
             output_text += "-"
+        elif char == "_":
+            output_text += "_"
+        elif char == "(":
+            output_text += "\("
+        elif char == ")":
+            output_text += "\)"
         else:
             output_text += regex_variable
     regex_results = re.findall(output_text, input_text)
