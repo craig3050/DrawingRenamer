@@ -17,7 +17,7 @@ def continue_on():
 
 def extract_pdf_text(file_path):
     with open(file_path, 'rb') as file_open:
-        file_object = PyPDF2.PdfFileReader(file_open)
+        file_object = PyPDF2.PdfFileReader(file_open, strict = False)
         page_object = file_object.getPage(0)
         page_object = page_object.extractText()
         #print (page_object) #comment this out for general use - useful when testing if the drawing text has been recognised
